@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色展示</title>
+    <style>
+        /* 簡化的網頁樣式 */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-image: url('overwatch2.jpg'); /* 使用 overwatch2.jpg 作為背景 */
+            background-size: cover;  /* 確保背景圖片覆蓋整個頁面 */
+            background-position: center; /* 讓背景圖片置中 */
+            background-attachment: fixed; /* 背景圖片固定不隨捲動 */
+            color: #fff;
+        }
+
+        header h1 {
+            color: #fff;
+            margin: 20px;
+        }
+
+        /* 篩選按鈕樣式 */
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* 角色卡片樣式 */
+        .character-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .character-card {
+            background: rgba(255, 255, 255, 0.85); /* 半透明效果 */
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .character-card:hover {
+            transform: scale(1.05);
+        }
+
+        .character-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .character-info {
+            padding: 15px;
+            color: #333;
+        }
+
+        .character-info h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .character-info p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .character-info button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        /* 隱藏技能區 */
+        .skill-details {
+            display: none;
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>英雄</h1>
+    </header>
+    
+    <!-- 篩選按鈕 -->
+    <div class="filter-buttons">
+        <button onclick="filterCategory('all')">全部</button>
+        <button onclick="filterCategory('tank')">肉盾</button>
+        <button onclick="filterCategory('damage')">攻擊</button>
+        <button onclick="filterCategory('support')">輔助</button>
+    </div>
+
+    <main>
+        <div class="character-container">
+            <!-- 肉盾角色卡片 -->
+            <div class="character-card tank">
+                <img src="D.Va.jpg" alt="D.Va角色圖片">
+                <div class="character-info">
+                    <h2>D.Va</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：融合砲</strong></p>
+                        <p>說明：近距離自動散射武器</p>
+                        <p><strong>Shift：推進器</strong></p>
+                        <p>說明：往前飛</p>
+                        <p><strong>E：火箭</strong></p>
+                        <p>說明：發射數枚火箭</p>
+                        <p><strong>Q：自爆(終極技能)</strong></p>
+                        <p>說明：機甲爆炸</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card tank">
+                <img src="Zarya.jpg" alt="札莉雅（Zarya）角色圖片">
+                <div class="character-info">
+                    <h2>札莉雅（Zarya）</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：粒子砲</strong></p>
+                        <p>說明：發射持續性能量光束，對單一目標造成傷害/發射範圍爆炸的能量球，對小範圍內的敵人造成傷害</p>
+                        <p><strong>Shift：粒子屏障</strong></p>
+                        <p>說明：為自己施加護盾，吸收傷害並將吸收的能量轉化為攻擊力提升</p>
+                        <p><strong>E：投射屏障</strong></p>
+                        <p>說明：為隊友施加護盾，護盾吸收的傷害也會提高她的攻擊力</p>
+                        <p><strong>Q：重力噴涌(終極技能)</strong></p>
+                        <p>說明：射重力炸彈，將範圍內的敵人吸引至中心</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card tank">
+                <img src="Orisa.jpg" alt="歐瑞莎（Orisa）角色圖片">
+                <div class="character-info">
+                    <h2>歐瑞莎（Orisa）</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：強化融合炮</strong></p>
+                        <p>說明：熱能自動武器</p>
+                        <p><strong>Shift：強化防禦</strong></p>
+                        <p>說明：暫時獲得生命值 降低所受到的傷害並且免疫控場</p>
+                        <p><strong>E：迴旋鏢槍</strong></p>
+                        <p>說明：摧毀遠程拋射物並格擋近戰攻擊 同時推開敵人</p>
+                        <p><strong>Q：大地湧能(終極技能)</strong></p>
+                        <p>說明：把敵人拉向獲得強化防禦效果並開始進行充能傷害</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card tank">
+                <img src="Doomfist.jpg" alt="毀滅拳王（Doomfist）角色圖片">
+                <div class="character-info">
+                    <h2>毀滅拳王（Doomfist）</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：爆裂重擊</strong></p>
+                        <p>說明：用左手發射近距離的散彈攻擊，適合中短距離傷害</p>
+                        <p><strong>副武器:火箭拳</strong>
+                        <p>說明:充能後向前方快速衝擊，用拳頭擊飛命中的敵人，若敵人撞上牆壁，將會受到額外傷害</p>
+                        <p><strong>Shift:強力格擋</strong></p>
+                        <p>說明：保護自己不受前方傷害並為火箭權充能</p>
+                        <p><strong>E：震地襲</strong></p>
+                        <p>說明：跳躍 猛擊地面</p>
+                        <p><strong>Q：流星墜(終極技能)</strong></p>
+                        <p>說明：在指定地點烙下造成傷害</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card tank">
+                <img src="JunkerQueen.jpg" alt="垃圾鎮女王（JunkerQueen)角色圖片">
+                <div class="character-info">
+                    <h2>垃圾鎮女王（JunkerQueen)</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：散彈槍</strong></p>
+                        <p>說明：泵動式散彈槍</p>
+                        <p><strong>副武器:鋸刃</strong>
+                        <p>說明:投擲刀刃再次使用會拉回刀刃和被刺穿的敵人</p>
+                        <p><strong>Shift:統帥怒吼</strong></p>
+                        <p>說明：暫時提高自己和盟友的生命值和移動速度</p>
+                        <p><strong>E：屠殺</strong></p>
+                        <p>說明：對前方所有敵人造成創傷 使其受到持續傷害 每擊中一個敵人都能降低冷卻時間</p>
+                        <p><strong>Q：瘋狂殺戮(終極技能)</strong></p>
+                        <p>說明：向前衝刺 對敵人造成創傷 使其受到持續傷害並且無法獲得治療</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card tank">
+                <img src="Winston.jpg" alt="溫斯頓（Winston）角色圖片">
+                <div class="character-info">
+                    <h2>溫斯頓（Winston）</h2>
+                    <p>職業: 肉盾</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：特斯拉炮</strong></p>
+                        <p>說明：會向前方放電</p>
+                        <p><strong>副武器:特斯拉炮</strong>
+                        <p>說明:按住來累積能量釋放會發射集束的電流</p>
+                        <p><strong>Shift:噴射跳躍</strong></p>
+                        <p>說明：跳向空中 落在敵人身上時可對其造成傷害</p>
+                        <p><strong>E：屏障產生器</strong></p>
+                        <p>說明：產生球形的能量屏障</p>
+                        <p><strong>Q：野性之怒(終極技能)</strong></p>
+                        <p>說明：生命值大幅提升 但是只能跳躍和毆打敵人</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 攻擊角色卡片 -->
+            <div class="character-card damage">
+                <img src="Tracer.jpg" alt="閃光（Tracer）角色圖片">
+                <div class="character-info">
+                    <h2>閃光（Tracer）</h2>
+                    <p>職業: 攻擊</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：脈衝手槍</strong></p>
+                        <p>說明：快速發射雙持手槍</p>
+                        <p><strong>Shift：閃現</strong></p>
+                        <p>說明：瞬間移動</p>
+                        <p><strong>E：時間回溯</strong></p>
+                        <p>說明：返回幾秒前的位置並恢復生命值</p>
+                        <p><strong>Q：脈衝炸彈（終極技能）</strong></p>
+                        <p>說明：投擲強力黏性炸彈</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card damage">
+                <img src="Genji.jpg" alt="源氏（Genji）角色圖片">
+                <div class="character-info">
+                    <h2>源氏（Genji)</h2>
+                    <p>職業: 攻擊</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：手裡劍</strong></p>
+                        <p>說明：投擲三發手裡劍</p>
+                        <p><strong>Shift：迅影襲</strong></p>
+                        <p>說明：向前衝刺斬擊造成傷害 擊殺敵人時重制冷卻時間</p>
+                        <p><strong>E：招架</strong></p>
+                        <p>說明：反彈投射武器並且格擋近戰傷害</p>
+                        <p><strong>Q：龍一文字(終極技能）</strong></p>
+                        <p>說明：解除致命近戰武器封印</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card damage">
+                <img src="Cassidy.jpg" alt="卡西迪（Cassidy)角色圖片">
+                <div class="character-info">
+                    <h2>卡西迪（Cassidy)</h2>
+                    <p>職業: 攻擊</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：和平捍衛者</strong></p>
+                        <p>說明：強力左輪手槍</p>
+                        <p><strong>Shift：翻滾</strong></p>
+                        <p>說明：翻滾閃避並自動裝填</p>
+                        <p><strong>E：閃光彈</strong></p>
+                        <p>說明：擊暈敵人</p>
+                        <p><strong>Q：彈無虛發（終極技能）</strong></p>
+                        <p>說明：瞄準敵人頭部，瞬間擊殺</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card damage">
+                <img src="Widowmaker.jpg" alt="奪命女（Widowmaker）角色圖片">
+                <div class="character-info">
+                    <h2>奪命女（Widowmaker）</h2>
+                    <p>職業: 攻擊</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：寡婦之吻</strong></p>
+                        <p>說明：狙擊步槍</p>
+                        <p><strong>Shift：鉤爪</strong></p>
+                        <p>說明：移動工具</p>
+                        <p><strong>E：毒蜘蛛地雷</strong></p>
+                        <p>說明：釋放毒霧</p>
+                        <p><strong>Q：紅外線感應（終極技能）</strong></p>
+                        <p>說明：透視所有敵人</p>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="character-card damage">
+                <img src="Ashe.jpg" alt="艾西（Ashe）角色圖片">
+                <div class="character-info">
+                    <h2>艾西（Ashe）</h2>
+                    <p>職業: 攻擊</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：毒蛇</strong></p>
+                        <p>說明：半自動步槍</p>
+                        <p><strong>Shift：雙管散射彈</strong></p>
+                        <p>說明：開槍射擊前面的敵人 同時擊退自己</p>
+                        <p><strong>E：炸藥</strong></p>
+                        <p>說明：扔出炸藥 炸藥一段時間後會爆炸或是射擊炸彈引爆炸彈</p>
+                        <p><strong>Q：鮑伯(終極技能)</strong></p>
+                        <p>說明：叫出鮑伯向前衝鋒將敵人擊飛在空中在發射子彈攻擊敵人</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 輔助角色卡片 -->
+            <div class="character-card support">
+                <img src="Ana.jpg" alt="安娜（Ana）角色圖片">
+                <div class="character-info">
+                    <h2>安娜（Ana）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：生化步槍</strong></p>
+                        <p>說明：左鍵:長程步槍 能治療隊友以及傷害敵人/右鍵:開鏡</p>
+                        <p><strong>Shift：睡眠鏢</strong></p>
+                        <p>說明：發射飛鏢 使一名敵人睡眠</p>
+                        <p><strong>E：生化手榴彈</strong></p>
+                        <p>說明：投擲手榴彈 能治療隊友並且提高他們所受到的治療效果同時能傷害敵人並且使他們無法接受治療</p>
+                        <p><strong>Q：奈米強化(終極技能)</strong></p>
+                        <p>說明：提高目標的傷害並降低該目標受到的傷害</p>
+
+                    </div>
+                </div>
+            </div>
+
+             <div class="character-card support">
+                <img src="Illari.jpg" alt="伊拉里（Illari）角色圖片">
+                <div class="character-info">
+                    <h2>伊拉里（Illari）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：太陽步槍</strong></p>
+                        <p>說明：左鍵:遠距離自動充能步槍/右鍵:消耗太陽能力的中距離治療光束</p>
+                        <p><strong>Shift:爆發</strong></p>
+                        <p>說明：朝你移動的方向騰起並擊退敵人 按住跳躍可跳得更高</p>
+                        <p><strong>E：治療塔</strong></p>
+                        <p>說明：架設一台能治療友軍的治療塔</p>
+                        <p><strong>Q：萬千烈陽(終極技能)</strong></p>
+                        <p>說明：發射凝聚成一團的強大太陽能量 命中敵人會緩速且受到一定傷害後會爆炸</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card support">
+                <img src="Mercy.jpg" alt="慈悲（Mercy）角色圖片">
+                <div class="character-info">
+                    <h2>慈悲（Mercy）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：天使之杖</strong></p>
+                        <p>說明：左鍵:按住可持續治療隊友/右鍵:按住可提高隊友傷害</p>
+                        <p><strong>副武器：天使光槍</strong></p>
+                        <p>說明：自動武器</p>
+                        <p><strong>Shift:守護天使</strong></p>
+                        <p>說明：飛向一名隊友</p>
+                        <p><strong>E：復活</strong></p>
+                        <p>說明：復活一名陣亡的隊友</p>
+                        <p><strong>Q：女武神(終極技能)</strong></p>
+                        <p>說明：活得飛行能力 同時強化自身技能</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card support">
+                <img src="Juno.jpg" alt="朱諾（Juno）角色圖片">
+                <div class="character-info">
+                    <h2>朱諾（Juno）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：醫療光槍</strong></p>
+                        <p>說明：點放武器能治療隊友和傷害敵人</p>
+                        <p><strong>副武器:脈衝魚雷星</strong></p>
+                        <p>說明:按右鍵按次按下攻擊發射自動導向拋射物 持續性治療隊友和對敵人造成傷害
+                        <p><strong>Shift:滑翔加速</strong></p>
+                        <p>說明：水平滑翔時移動速度提高</p>
+                        <p><strong>E：超能圓環</strong></p>
+                        <p>說明：部屬一個圓環 隊友穿過時增加移動速度</p>
+                        <p><strong>Q：軌道射線(終極技能)</strong></p>
+                        <p>說明：召喚一個向前推進的射線 能治療隊友和傷害敵人</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card support">
+                <img src="Zenyatta.jpg" alt="禪亞塔（Zenyatta）角色圖片">
+                <div class="character-info">
+                    <h2>禪亞塔（Zenyatta）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：破滅之珠</strong></p>
+                        <p>說明：左鍵:能量投射武器/右鍵:積蓄能量 一口氣連續射出許多珠子</p>
+                        <p><strong>Shift:和諧之珠</strong></p>
+                        <p>說明：朝隊友射出珠子來治療</p>
+                        <p><strong>E：紛亂之珠</strong></p>
+                        <p>說明：朝敵人射出珠子並且提高他們受到的傷害</p>
+                        <p><strong>Q:超凡入聖(終極技能)</strong></p>
+                        <p>說明：進入無敵狀態 提高移動速度 同時為附近的隊友治療</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-card support">
+                <img src="Kiriko.jpg" alt="霧子（Kiriko）角色圖片">
+                <div class="character-info">
+                    <h2>霧子（Kiriko）</h2>
+                    <p>職業: 輔助</p>
+                    <button onclick="toggleSkillDetails(this)">查看技能</button>
+                    <div class="skill-details">
+                        <p><strong>武器：治療御札</strong></p>
+                        <p>說明：引導一道可以追蹤目標盟友的治療護符</p>
+                        <p><strong>副武器：苦無</strong></p>
+                        <p>說明：遠距離投擲武器</p>
+                        <p><strong>Shift:瞬影步</strong></p>
+                        <p>說明：直接傳送到一名隊友身旁</p>
+                        <p><strong>E：袱除鈴</strong></p>
+                        <p>說明：投擲一個保護符 使盟友暫時進入無敵狀態並且淨化大部分的負面效果</p>
+                        <p><strong>Q:御狐衝刺(終極技能)</strong></p>
+                        <p>說明：召喚一隻向前衝的靈狐 隊友走在靈狐路徑上的時候會提高移動速度 攻擊速度和縮短冷卻時間</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 切換技能顯示
+        function toggleSkillDetails(button) {
+            const skillDetails = button.nextElementSibling;
+            skillDetails.style.display = skillDetails.style.display === "none" ? "block" : "none";
+            button.textContent = skillDetails.style.display === "block" ? "隱藏技能" : "查看技能";
+        }
+
+        // 篩選分類
+        function filterCategory(category) {
+            const cards = document.querySelectorAll(".character-card");
+
+            cards.forEach(card => {
+                if (category === "all" || card.classList.contains(category)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
