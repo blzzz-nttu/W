@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狗狗世界 Doggo World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffcc00;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 10px;
+            color: black;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        #breed-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 10px 0 5px;
+        }
+        .filter {
+            margin-bottom: 20px;
+        }
+        .filter label {
+            margin-right: 10px;
+        }
+        .gallery img {
+            max-width: 100px;
+            margin: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>狗狗世界 Doggo World</h1>
+        <nav>
+            <a href="#breeds">品種介紹</a>
+            <a href="#quiz">知識小測驗</a>
+            <a href="#gallery">圖片分享</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="breeds">
+            <h2>狗狗品種介紹</h2>
+            <div class="filter">
+                <label for="size">體型：</label>
+                <select id="size">
+                    <option value="all">全部</option>
+                    <option value="small">小型</option>
+                    <option value="medium">中型</option>
+                    <option value="large">大型</option>
+                </select>
+            </div>
+            <div id="breed-list">
+                <!-- 動態插入狗狗資料 -->
+            </div>
+        </section>
+
+        <section id="quiz">
+            <h2>狗狗知識小測驗</h2>
+            <p>Q1: 哪種狗狗適合小型公寓飼養？</p>
+            <button class="answer">柴犬</button>
+            <button class="answer">吉娃娃</button>
+            <button class="answer">金毛獵犬</button>
+            <p id="quiz-result"></p>
+        </section>
+
+        <section id="gallery">
+            <h2>狗狗圖片分享</h2>
+            <input type="file" id="upload-image" accept=".jpg" />
+            <button id="confirm-upload" disabled>確認上傳</button>
+            <div id="image-gallery">
+                <!-- 用戶上傳圖片展示區 -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 狗狗品種資料
+        const breeds = [
+            { name: "柴犬", size: "medium", personality: "護主", image: "柴犬.jpg" },
+            { name: "吉娃娃", size: "small", personality: "活潑", image: "吉娃娃.jpg" },
+            { name: "金毛獵犬", size: "large", personality: "溫順", image: "金毛獵犬.jpg" },
+            { name: "貴賓犬", size: "small", personality: "聰明", image: "貴賓犬.jpg" },
+            { name: "哈士奇", size: "large", personality: "友善", image: "哈士奇.jpg" },
+            { name: "臘腸犬", size: "small", personality: "忠誠", image: "臘腸狗.jpg" },
+            { name: "邊境牧羊犬", size: "medium", personality: "活力", image: "邊境牧羊犬.jpg" },
+            { name: "比熊犬", size: "small", personality: "親切", image: "比熊犬.jpg" },
+            { name: "大丹犬", size: "large", personality: "穩重", image: "大丹犬.jpg" },
+            { name: "雪納瑞", size: "small", personality: "獨立", image: "雪納瑞.jpg" },
+            { name: "拉布拉多獵犬", size: "large", personality: "可靠", image: "拉布拉多獵犬.jpg" },
+            { name: "波士頓梗", size: "small", personality: "友好", image: "波士頓梗.jpg" },
+            { name: "巴哥犬", size: "small", personality: "溫和", image: "巴哥犬.jpg" }
+        ];
+
+        // 品種篩選功能
+        document.getElementById("size").addEventListener("change", function () {
+            const selectedSize = this.value;
+            const breedList = document.getElementById("breed-list");
+            breedList.innerHTML = "";
+
+            breeds
+                .filter(breed => selectedSize === "all" || breed.size === selectedSize)
+                .forEach(breed => {
+                    const card = document.createElement("div");
+                    card.classList.add("card");
+                    card.innerHTML = `
+                        <img src="${breed.image}" alt="${breed.name}">
+                        <h3>${breed.name}</h3>
+                        <p>體型：${breed.size}</p>
+                        <p>性格：${breed.personality}</p>
+                    `;
+                    breedList.appendChild(card);
+                });
+        });
+
+        // 知識測驗功能
+        document.querySelectorAll(".answer").forEach(button => {
+            button.addEventListener("click", function () {
+                const result = document.getElementById("quiz-result");
+                if (this.textContent === "吉娃娃") {
+                    result.textContent = "答對了！";
+                } else {
+                    result.textContent = "答錯了，再試試！";
+                }
+            });
+        });
+
+        // 圖片上傳功能 (僅限 JPG 格式，並加入確認按鈕)
+        const uploadInput = document.getElementById("upload-image");
+        const confirmButton = document.getElementById("confirm-upload");
+        const gallery = document.getElementById("image-gallery");
+        let selectedFile = null;
+
+        uploadInput.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file && file.type === "image/jpeg") {
+                selectedFile = file;
+                confirmButton.disabled = false;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    gallery.innerHTML = "";
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    gallery.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("請上傳 JPG 格式的圖片！");
+                uploadInput.value = "";
+                selectedFile = null;
+                confirmButton.disabled = true;
+                gallery.innerHTML = "";
+            }
+        });
+
+        confirmButton.addEventListener("click", function () {
+            if (selectedFile) {
+                alert(`圖片 ${selectedFile.name} 已成功上傳！`);
+                uploadInput.value = "";
+                selectedFile = null;
+                confirmButton.disabled = true;
+                gallery.innerHTML = "";
+            }
+        });
+
+        // 初始化品種列表
+        document.getElementById("size").dispatchEvent(new Event("change"));
+    </script>
+</body>
+</html>
